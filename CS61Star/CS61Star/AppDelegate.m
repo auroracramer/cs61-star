@@ -7,17 +7,19 @@
 //
 
 #import "AppDelegate.h"
-#import "HelloWorldLayer.h"
+#import "SKOverWorldScene.h"
+#import "SKControllerEngine.h"
 
 @implementation CS61StarAppDelegate
 @synthesize window=window_, glView=glView_;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    
+    // If you are using "NSTimer" Director you could set a very low interval
+    [[CCDirector sharedDirector] setAnimationInterval:1/240.0];
+    
 	CCDirectorMac *director = (CCDirectorMac*) [CCDirector sharedDirector];
-
-	// enable FPS and SPF
-	[director setDisplayStats:YES];
 	
 	// connect the OpenGL view with the director
 	[director setView:glView_];
@@ -25,15 +27,16 @@
 	// EXPERIMENTAL stuff.
 	// 'Effects' don't work correctly when autoscale is turned on.
 	// Use kCCDirectorResize_NoScale if you don't want auto-scaling.
-	[director setResizeMode:kCCDirectorResize_AutoScale];
+    [director setResizeMode:kCCDirectorResize_NoScale];
 	
 	// Enable "moving" mouse event. Default no.
 	[window_ setAcceptsMouseMovedEvents:NO];
-	
 	// Center main window
 	[window_ center];
-	
-	[director runWithScene:[HelloWorldLayer scene]];
+
+    SKControllerEngine* controller = [[SKControllerEngine alloc] init];
+
+	[director runWithScene:[controller currScene]];
 }
 
 - (BOOL) applicationShouldTerminateAfterLastWindowClosed: (NSApplication *) theApplication
